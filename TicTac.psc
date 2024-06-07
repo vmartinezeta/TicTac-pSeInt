@@ -32,7 +32,6 @@ Funcion getLinea(l, num , lineas)
 	Si num = 8 Entonces
 		crearLinea(l, lineas[7, 0, 0], lineas[7, 1, 0], lineas[7, 1, 1], lineas[7, 1, 2])
 	FinSi
-	
 FinFuncion
 
 
@@ -94,6 +93,7 @@ Funcion cambiarTurno(fichaEnJuego Por Referencia)
 	FinSi
 FinFuncion
 
+
 Funcion actualizarTablero(tablero, ficha, posicion)
 	i = posicion[0]
 	j = posicion[1]
@@ -110,16 +110,18 @@ Funcion imprimirTablero(tablero)
 	FinPara
 FinFuncion
 
+
 Funcion ficha = getFichaDefault
 	ficha = "_"
 FinFuncion
+
 
 Funcion ganador = hayGanador(linea)
 	ganador = linea[1,0] = linea[1,1] Y linea[1,1] = linea[1,2] Y linea[1, 0] <> getFichaDefault()
 FinFuncion
 
 
-Funcion lleno = completo(tablero) 
+Funcion ok = completo(tablero) 
 	cantidad = 0
 	Para i = 0 Hasta 2 Hacer
 		para j = 0 Hasta 2 Hacer
@@ -128,10 +130,8 @@ Funcion lleno = completo(tablero)
 			FinSi
 		FinPara
 	FinPara
-	lleno = cantidad = 0
+	ok = cantidad = 0
 FinFuncion
-
-
 
 
 
@@ -195,63 +195,75 @@ Funcion pasarLineas(tablero, lineas)
 FinFuncion
 
 
-Funcion termino = finalizo(actual, tablero)
+Funcion ok = finalizo(actual, tablero)
 	Dimension lineas[8, 2, 3]
 	pasarLineas(tablero, lineas)
 	ganador = Falso
-	Para  i = 1  Hasta 8 Hacer
+	i = 1
+	Mientras  i<=8 Y No ganador Hacer
 		getLinea(actual, i, lineas) 
 		Si hayGanador(actual) Entonces
 			ganador = Verdadero
-			i = 8
 		FinSi
-	FinPara
-	termino = ganador o completo(tablero)
+		i=i+1
+	FinMientras
+
+	ok = ganador o completo(tablero)
 FinFuncion
 
-Funcion aceptado = valido(n, tablero)
+
+Funcion ok = valido(n, tablero)
 	Dimension posicion[2]
 	num = ConvertirANumero(n)
 	getPosicion(posicion, num)
 	i = posicion[0]
 	j = posicion[1]
 	ficha = tablero[i, j]
-	aceptado = num >= 1 y num <= 9 y ficha = getFichaDefault()
+	ok = num >= 1 Y num <= 9 Y ficha = getFichaDefault()
 FinFuncion
 
 
 Funcion ok = isInputValido(n)
 	Dimension  permitido[9]
+
 	Para i =0 Hasta 8 Hacer
 		permitido[i] = i+1
 	FinPara
 
-	reciente = 0
-	Para  i=0 Hasta 8 Hacer
-		si reciente < 8 Entonces
-			reciente = reciente + 1	
-		FinSi
-		
+	i = 0
+	ok = Falso
+	Mientras i <= 8 Y No ok Hacer
 		num = ConvertirATexto(permitido[i])
-		si num = n Entonces
-			i = 8
+		Si num = n Entonces
 			ok = Verdadero
 		FinSi
-	FinPara
-	
-	si reciente > 8 Entonces
-		ok = Falso		
-	FinSi
-
+		i = i + 1
+	FinMientras
 FinFuncion
+
+
+Funcion notificar(linea) 
+	Escribir "Ganastes!"
+	Escribir  "Orientación: ", linea[0,0] 
+	Escribir "Fichas: " Sin Saltar
+	fichas = ""
+	para i = 0 Hasta 2 Hacer
+		si fichas = "" Entonces
+			fichas = linea[1, i] 
+		sino 
+			fichas = fichas + " - " + linea[1, i]
+		FinSi
+	FinPara
+	Escribir fichas
+FinFuncion
+
 
 
 Algoritmo TicTac
 	Dimension tablero[3, 3]
 	Dimension actual[2, 3]
 	Dimension posicion[2]
-	
-	
+
 	crearTablero(tablero)
 
 	fichaEnJuego = "x"
@@ -270,9 +282,8 @@ Algoritmo TicTac
 		imprimirTablero(tablero)
 	FinMientras
 	
-	Si hayGanador(actual) Entonces
-		Escribir "Ganastes!"
-		Escribir actual[0, 0], ": ", actual[1, 0], actual[1, 1], actual[1, 2]
+	Si hayGanador(actual) Entonces		
+		notificar(actual)
 	SiNo
 		Si completo(tablero) Entonces
 			Escribir "Empataron!"			
