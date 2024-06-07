@@ -44,47 +44,6 @@ Funcion crearTablero(tablero)
 FinFuncion
 
 
-Funcion getPosicion(posicion, num)
-	Si num = 1 Entonces
-		posicion[0] = 0
-		posicion[1] = 0
-	FinSi
-	Si num = 2 Entonces
-		posicion[0] = 0
-		posicion[1] = 1
-	FinSi
-	Si num = 3 Entonces
-		posicion[0] = 0
-		posicion[1] = 2
-	FinSi	
-	Si num = 4 Entonces
-		posicion[0] = 1
-		posicion[1] = 0
-	FinSi				
-	Si num = 5 Entonces
-		posicion[0] = 1
-		posicion[1] = 1
-	FinSi	
-	Si num = 6 Entonces
-		posicion[0] = 1
-		posicion[1] = 2
-	FinSi
-	Si num = 7 Entonces
-		posicion[0] = 2
-		posicion[1] = 0
-	FinSi
-	Si num = 8 Entonces
-		posicion[0] = 2
-		posicion[1] = 1
-	FinSi
-	
-	Si num = 9 Entonces
-		posicion[0] = 2
-		posicion[1] = 2
-	FinSi	
-FinFuncion
-
-
 Funcion cambiarTurno(fichaEnJuego Por Referencia) 
 	Si fichaEnJuego = "x" Entonces
 		fichaEnJuego = "O"
@@ -258,12 +217,56 @@ Funcion notificar(linea)
 FinFuncion
 
 
+Funcion ok = isDivisionExacta(num) 
+	noDecimal = trunc(num/3)
+	n = noDecimal * 3
+	Si n = num Entonces
+		ok = Verdadero
+	SiNo
+		ok = Falso
+	FinSi
+FinFuncion
+
+
+
+Funcion  vector = getVectorI(num)
+	si isDivisionExacta(num) Entonces
+		vector = trunc(num / 3) - 1
+	SiNo
+		vector = trunc(num/3)
+	FinSi
+FinFuncion
+
+
+Funcion  j = getVectorJ(num) 
+	factor = getVectorI(num)
+	si factor * 3 + 1 = num Entonces
+		j = 0	
+	FinSi
+	si factor * 3 + 2 = num Entonces
+		j = 1
+	FinSi
+	si factor * 3 + 3 = num Entonces
+		j = 2
+	FinSi
+	
+FinFuncion
+
+Funcion getPosicion(posicion,num) 
+	i = getVectorI(num)
+	j = getVectorJ(num)
+	posicion[0] = i
+	posicion[1] = j
+FinFuncion
+
+
 
 Algoritmo TicTac
 	Dimension tablero[3, 3]
 	Dimension actual[2, 3]
 	Dimension posicion[2]
-
+	
+	
 	crearTablero(tablero)
 
 	fichaEnJuego = "x"
