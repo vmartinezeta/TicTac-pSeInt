@@ -42,5 +42,5 @@ FinFuncion
 
 
 Algoritmo Main
-	MaquinaEscribir("Hola, victor!", 100, 1, -1)
+	MaquinaEscribir("Soy victor programador javascript.", 100, 1, -1)
 FinAlgoritmo
