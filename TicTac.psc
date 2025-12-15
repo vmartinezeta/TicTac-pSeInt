@@ -266,7 +266,7 @@ Funcion ok = finalizo(actual, tablero)
 FinFuncion
 
 
-Funcion ok = isCeldaOcupada(n, tablero)
+Funcion ok = isCeldaDisponible(n, tablero)
 	Dimension celdas[9, 4]
 	Dimension celda[4]
 	num = ConvertirANumero(n)
@@ -314,8 +314,9 @@ FinFuncion
 
 
 Funcion  ok = valido(num, tablero)
-	ok = isInputValido(num) y isCeldaOcupada(num, tablero)
+	ok = isInputValido(num) y isCeldaDisponible(num, tablero)
 FinFuncion
+
 
 Funcion  colocarJugador(tablero, fichaEnJuego)
 	Dimension celdas[9,4]
